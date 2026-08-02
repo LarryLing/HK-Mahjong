@@ -12,6 +12,7 @@
       "command": "dotnet",
       "args": [
         "format",
+        "HK-Mahjong.slnx",
         "analyzers",
         "--verify-no-changes",
         "--verbosity",
