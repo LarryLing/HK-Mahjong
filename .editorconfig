@@ -1,0 +1,68 @@
+root = true
+
+[*.cs]
+# ==========================================
+# 1. Clear Conflict Suppressions for Unity
+# ==========================================
+
+# IDE0051: Remove unused private members
+# Unity magic methods (Start, Update) are invoked via reflection and throw false positives.
+dotnet_diagnostic.IDE0051.severity = none
+
+# IDE0044: Make field readonly
+# SerializedFields [SerializeField] must remain mutable by Unity's inspector.
+dotnet_diagnostic.IDE0044.severity = none
+
+# IDE0060: Remove unused parameters
+# Needed when overriding standard Unity event loops or delegates.
+dotnet_diagnostic.IDE0060.severity = suggestion
+
+
+# ==========================================
+# 2. Performance & Allocation Rules (UNT)
+# ==========================================
+
+# UNT0001: Empty Unity lifecycle messages (Start, Update, FixedUpdate)
+# Empty callbacks still incur overhead from the native C++ to C# engine bridge.
+dotnet_diagnostic.UNT0001.severity = warning
+
+# UNT0002: Inefficient tag comparison
+# Enforce 'CompareTag("Tag")' over string comparisons like 'tag == "Tag"' to eliminate allocations.
+dotnet_diagnostic.UNT0002.severity = warning
+
+# UNT0007: Inefficient object creation via 'new'
+# Forbids creating ScriptableObjects or MonoBehaviours directly; enforces Instance / AddComponent.
+dotnet_diagnostic.UNT0007.severity = error
+
+# UNT0008: Cache invocation of Camera.main
+# Camera.main searches the whole scene tag index internally; it must be cached.
+dotnet_diagnostic.UNT0008.severity = warning
+
+# UNT0010: Inefficient component lookup inside loop
+# Flag GetComponent calls inside Update or looping structures.
+dotnet_diagnostic.UNT0010.severity = warning
+
+
+# ==========================================
+# 3. Best Practices & API Usage
+# ==========================================
+
+# UNT0014: Invalid Unity message signature
+# Warns if Start/Update methods are misspelled or use wrong parameter signatures.
+dotnet_diagnostic.UNT0014.severity = error
+
+# UNT0017: SetPositionAndRotation instead of separate assignments
+# Combining these calls prevents double scene hierarchy re-calculations.
+dotnet_diagnostic.UNT0017.severity = warning
+
+# UNT0022: Use non-allocating Physics APIs
+# Enforce methods like Physics.RaycastNonAlloc over Physics.RaycastAll to keep garbage collection low.
+dotnet_diagnostic.UNT0022.severity = warning
+
+
+# ==========================================
+# 4. Common Formatting Adjustments for Unity
+# ==========================================
+# Keeps structure tidy without conflicting with CSharpier's baseline syntax layout
+csharp_style_expression_bodied_methods = false
+csharp_style_expression_bodied_properties = true
