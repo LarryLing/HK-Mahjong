@@ -19,6 +19,16 @@ public class DeckBuilder : NetworkBehaviour
 
     private Deque<GameObject> tileDeque = new();
 
+    private void OnEnable()
+    {
+        DiceRoller.OnRollResolvedServer += HandleDiceRollResolved;
+    }
+
+    private void OnDisable()
+    {
+        DiceRoller.OnRollResolvedServer -= HandleDiceRollResolved;
+    }
+
     public override void OnNetworkSpawn()
     {
         if (!IsServer)
@@ -53,6 +63,14 @@ public class DeckBuilder : NetworkBehaviour
             );
             tileDeque.PushBack(tileGameObject);
         }
+    }
+
+    private void HandleDiceRollResolved(int[] diceResults)
+    {
+        int diceSum = 0;
+        foreach (int result in diceResults)
+            diceSum += result;
+        tileDeque.Rotate(diceSum);
     }
 
     private List<(
