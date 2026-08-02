@@ -55,5 +55,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d689bea8f30aa483db6c96125a5ef90c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8153431314484223535}
   m_SourcePrefab: {fileID: 100100000, guid: d689bea8f30aa483db6c96125a5ef90c, type: 3}
+--- !u!1 &4905010760684846144 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d689bea8f30aa483db6c96125a5ef90c, type: 3}
+  m_PrefabInstance: {fileID: 5247661812276232465}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8153431314484223535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905010760684846144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0421f838e41b479381b4bf0b6186029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TileRenderer
+  meshRenderer: {fileID: 6850790032210992533}
+--- !u!23 &6850790032210992533 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: d689bea8f30aa483db6c96125a5ef90c, type: 3}
+  m_PrefabInstance: {fileID: 5247661812276232465}
+  m_PrefabAsset: {fileID: 0}
