@@ -1,11 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Tile))]
+[CustomEditor(typeof(TileData))]
 public class TileEditor : Editor
 {
-    SerializedProperty displayName,
-        category,
+    SerializedProperty category,
         suit,
         rank,
         honor,
@@ -14,7 +13,6 @@ public class TileEditor : Editor
 
     private void OnEnable()
     {
-        displayName = serializedObject.FindProperty("displayName");
         category = serializedObject.FindProperty("category");
         suit = serializedObject.FindProperty("suit");
         rank = serializedObject.FindProperty("rank");
@@ -27,7 +25,6 @@ public class TileEditor : Editor
     {
         serializedObject.Update();
 
-        EditorGUILayout.PropertyField(displayName);
         EditorGUILayout.PropertyField(category);
 
         TileCategory categoryValue = (TileCategory)category.enumValueIndex;

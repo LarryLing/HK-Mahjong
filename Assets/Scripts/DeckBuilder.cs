@@ -14,10 +14,10 @@ public class DeckBuilder : NetworkBehaviour
     public const int TotalTileCount = WallCount * StacksPerWall * TilesPerStack; // 144 Tiles
     public const float WallOffsetFromCenter = 2.6f;
 
-    public GameObject tilePrefab;
-    public List<Tile> tiles;
+    public Tile tilePrefab;
+    public List<TileData> tilesData;
 
-    private Deque<GameObject> tileDeque = new();
+    private Deque<Tile> tileDeque = new();
 
     private void OnEnable()
     {
@@ -34,34 +34,40 @@ public class DeckBuilder : NetworkBehaviour
         if (!IsServer)
             return;
 
-        List<GameObject> tileGameObjects = new(TotalTileCount);
+        List<Tile> tileList = new(TotalTileCount);
 
-        foreach (Tile tile in tiles)
+        for (int i = 0; i < tilesData.Count; i++)
         {
-            int copies = tile.category == TileCategory.Flower ? 1 : 4;
-            for (int i = 0; i < copies; i++)
-            {
-                GameObject tileGameObject = Instantiate(tilePrefab);
-                TileRenderer tileRenderer = tileGameObject.GetComponent<TileRenderer>();
-                tileRenderer.ApplyTexture(tile.texture);
+            TileData tileData = tilesData[i];
 
-                tileGameObjects.Add(tileGameObject);
+            int copies = tileData.category == TileCategory.Flower ? 1 : 4;
+
+            for (int copy = 0; copy < copies; copy++)
+            {
+                Tile tile = Instantiate<Tile>(tilePrefab);
+
+                NetworkObject tileNetworkObject = tile.GetComponent<NetworkObject>();
+                tileNetworkObject.Spawn();
+
+                tile.tileDataIndex.Value = i;
+
+                tileList.Add(tile);
             }
         }
 
-        tileGameObjects.Shuffle();
+        tileList.Shuffle();
 
         List<(Vector3 spawnPosition, Quaternion spawnRotation)> calculated =
             GetTileSpawnPositionsAndRotations();
 
         for (int i = 0; i < TotalTileCount; i++)
         {
-            GameObject tileGameObject = tileGameObjects[i];
-            tileGameObject.transform.SetPositionAndRotation(
+            Tile tile = tileList[i];
+            tile.transform.SetPositionAndRotation(
                 calculated[i].spawnPosition,
                 calculated[i].spawnRotation
             );
-            tileDeque.PushBack(tileGameObject);
+            tileDeque.PushBack(tile);
         }
     }
 

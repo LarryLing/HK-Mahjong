@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Deque<T>
 {
-    private LinkedList<T> elements;
+    public LinkedList<T> elements;
 
     public int Count => elements.Count;
 

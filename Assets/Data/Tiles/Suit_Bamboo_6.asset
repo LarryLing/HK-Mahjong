@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7b2c5e81020a43c4aae915cabd11936, type: 3}
+  m_Script: {fileID: 11500000, guid: e9508e17bc76a41b4a383e019087f5f4, type: 3}
   m_Name: Suit_Bamboo_6
   m_EditorClassIdentifier: Assembly-CSharp::Tile
-  displayName: suit_bamboo_6
   category: 0
   suit: 1
   rank: 6

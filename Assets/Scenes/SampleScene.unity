@@ -500,7 +500,8 @@ MonoBehaviour:
     NetworkTransport: {fileID: 960999698}
     PlayerPrefab: {fileID: 0}
     Prefabs:
-      NetworkPrefabsLists: []
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: 38a4871ee04cf48c694a4ad5a16d8850, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -523,7 +524,7 @@ MonoBehaviour:
     NetworkProfilingMetrics: 1
     OldPrefabList: []
   RunInBackground: 1
-  LogLevel: 1
+  LogLevel: 0
 --- !u!4 &960999700
 Transform:
   m_ObjectHideFlags: 0
@@ -560,8 +561,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 980415224}
-  - component: {fileID: 980415225}
   - component: {fileID: 980415226}
+  - component: {fileID: 980415225}
   m_Layer: 0
   m_Name: DeckBuilder
   m_TagString: Untagged
@@ -597,8 +598,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckBuilder
   ShowTopMostFoldoutHeaderGroup: 1
-  tilePrefab: {fileID: 4905010760684846144, guid: a0d6eaf59235c4607818f0ec5806ac6e, type: 3}
-  tiles:
+  tilePrefab: {fileID: 6087657335933364728, guid: a0d6eaf59235c4607818f0ec5806ac6e, type: 3}
+  tilesData:
   - {fileID: 11400000, guid: 04b2f529b650748c0844a11a68dac4a4, type: 2}
   - {fileID: 11400000, guid: d2c800b1295cc7143a0ebea044ab15a5, type: 2}
   - {fileID: 11400000, guid: 7590bbe5ef4f640e89cf1d04459d1c0b, type: 2}
@@ -656,9 +657,9 @@ MonoBehaviour:
   GlobalObjectIdHash: 3283220604
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
-  Ownership: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 0
+  SynchronizeTransform: 1
   m_InScenePlaced: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0

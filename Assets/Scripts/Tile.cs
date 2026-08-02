@@ -1,69 +1,35 @@
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public enum TileCategory
+public class Tile : NetworkBehaviour
 {
-    Suit,
-    Honor,
-    Flower,
-}
+    public NetworkVariable<int> tileDataIndex = new();
 
-public enum Suit
-{
-    Circle,
-    Bamboo,
-    Character,
-}
+    [SerializeField]
+    private List<TileData> tilesData;
 
-public enum Honor
-{
-    East,
-    South,
-    West,
-    North,
-    RedDragon,
-    GreenDragon,
-    WhiteDragon,
-}
+    public TileData TileData => tilesData[tileDataIndex.Value];
 
-public enum Flower
-{
-    Plum,
-    Orchid,
-    Chrysanthemum,
-    Bamboo,
-    Spring,
-    Summer,
-    Autumn,
-    Winter,
-}
+    private Renderer meshRenderer;
+    private MaterialPropertyBlock _propBlock;
 
-[CreateAssetMenu(fileName = "NewTile", menuName = "Mahjong/Tile")]
-public class Tile : ScriptableObject
-{
-    [Header("Identity")]
-    public string displayName;
-    public TileCategory category;
-    public Suit suit;
-
-    [Range(1, 9)]
-    public int rank;
-    public Honor honor;
-    public Flower flower;
-
-    [Header("Texture")]
-    public Texture2D texture;
-
-    public bool IsSameTile(Tile other)
+    private void Awake()
     {
-        if (other == null || category != other.category)
-            return false;
+        meshRenderer = GetComponent<Renderer>();
+        _propBlock = new MaterialPropertyBlock();
+    }
 
-        return category switch
-        {
-            TileCategory.Suit => suit == other.suit && rank == other.rank,
-            TileCategory.Honor => honor == other.honor,
-            TileCategory.Flower => displayName == other.displayName,
-            _ => false,
-        };
+    public override void OnNetworkSpawn()
+    {
+        tileDataIndex.OnValueChanged += (_, _) => ApplyTexture();
+        ApplyTexture();
+    }
+
+    private void ApplyTexture()
+    {
+        meshRenderer.GetPropertyBlock(_propBlock);
+        _propBlock.SetTexture("_BaseMap", TileData.texture);
+        meshRenderer.SetPropertyBlock(_propBlock);
     }
 }
