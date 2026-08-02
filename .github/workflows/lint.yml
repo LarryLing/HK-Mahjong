@@ -19,4 +19,4 @@ jobs:
 
       - name: Run Dotnet Linting Check
         # --verify-no-changes makes the action exit with a non-zero code (fail) if lint errors exist
-        run: dotnet format analyzers --verify-no-changes --verbosity normal
+        run: dotnet format *.slnx analyzers --verify-no-changes --verbosity normal
