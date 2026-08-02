@@ -6,6 +6,18 @@
       "command": "dotnet",
       "args": ["csharpier", "${staged}"],
       "include": ["**/*.cs"]
+    },
+    {
+      "name": "dotnet-lint",
+      "command": "dotnet",
+      "args": [
+        "format",
+        "analyzers",
+        "--verify-no-changes",
+        "--verbosity",
+        "normal"
+      ],
+      "include": ["**/*.cs"]
     }
   ]
 }
