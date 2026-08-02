@@ -4,7 +4,7 @@
     {
       "name": "csharpier-format",
       "command": "dotnet",
-      "args": ["csharpier", "${staged}"],
+      "args": ["csharpier", "format", "${staged}"],
       "include": ["**/*.cs"]
     },
     {
