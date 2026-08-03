@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d689bea8f30aa483db6c96125a5ef90c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7802c5b94875948e4852850a3831adf5, type: 2}
     - target: {fileID: 919132149155446097, guid: d689bea8f30aa483db6c96125a5ef90c, type: 3}
       propertyPath: m_Name
       value: Tile
@@ -93,7 +97,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.00029999999, y: 0.00019999997, z: 0.0004}
+  m_Size: {x: 0.003, y: 0.002, z: 0.004}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2151486693310000820
 MonoBehaviour:
