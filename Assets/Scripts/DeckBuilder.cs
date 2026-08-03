@@ -10,8 +10,9 @@ public class DeckBuilder : NetworkBehaviour
 
     public const int WallCount = 4;
     public const int StacksPerWall = 18;
-    public const int TilesPerStack = 2;
-    public const int TotalTileCount = WallCount * StacksPerWall * TilesPerStack; // 144 Tiles
+    public const int TileLevelsPerStack = 2;
+    public const int TilesPerWall = StacksPerWall * TileLevelsPerStack; // 36 Tiles
+    public const int TotalTileCount = WallCount * TilesPerWall; // 144 Tiles
     public const float WallOffsetFromCenter = 2.6f;
 
     public Tile tilePrefab;
@@ -76,7 +77,20 @@ public class DeckBuilder : NetworkBehaviour
         int diceSum = 0;
         foreach (int result in diceResults)
             diceSum += result;
-        tileDeque.Rotate(diceSum);
+
+        int rotateBy = (diceSum - 1) * -TilesPerWall + diceSum * TileLevelsPerStack;
+
+        tileDeque.Rotate(rotateBy);
+
+        if (tileDeque.TryPeekFront(out Tile frontTile))
+        {
+            Transform tileTransform = frontTile.GetComponent<Transform>();
+            tileTransform.position = new Vector3(
+                tileTransform.position.x,
+                tileTransform.position.y + 2.5f,
+                tileTransform.position.z
+            );
+        }
     }
 
     private List<(
@@ -88,20 +102,20 @@ public class DeckBuilder : NetworkBehaviour
 
         for (int wall = 0; wall < WallCount; wall++)
         {
-            Quaternion spawnRotation = Quaternion.Euler(180f, wall * 90f, 0f);
+            Quaternion spawnRotation = Quaternion.Euler(-180f, wall * 90f, 0f);
 
-            Vector3 alongDirection = spawnRotation * Vector3.right;
+            Vector3 alongDirection = spawnRotation * -Vector3.right;
             Vector3 outDirection = spawnRotation * Vector3.forward;
 
             for (int stack = 0; stack < StacksPerWall; stack++)
             {
-                float localXPosition = (stack - (StacksPerWall - 1) * 0.5f) * TileWidth - 0.4f;
+                float localXPosition = (stack - (StacksPerWall - 1) * 0.5f) * TileWidth + 0.4f;
                 Vector3 spawnPosition =
                     outDirection * WallOffsetFromCenter + alongDirection * localXPosition;
 
-                for (int height = 0; height < TilesPerStack; height++)
+                for (int tileLevel = TileLevelsPerStack - 1; tileLevel >= 0; tileLevel--)
                 {
-                    Vector3 yLevel = Vector3.up * (height * TileHeight + TileHeight * 0.5f);
+                    Vector3 yLevel = Vector3.up * (tileLevel * TileHeight + TileHeight * 0.5f);
                     calculated.Add((spawnPosition + yLevel, spawnRotation));
                 }
             }

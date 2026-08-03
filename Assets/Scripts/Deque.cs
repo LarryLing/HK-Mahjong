@@ -70,6 +70,7 @@ public class Deque<T>
     {
         if (elements.Count == 0)
             return;
+
         rotateBy = ((rotateBy % elements.Count) + elements.Count) % elements.Count;
 
         for (int i = 0; i < rotateBy; i++)
