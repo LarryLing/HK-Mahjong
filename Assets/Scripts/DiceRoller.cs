@@ -7,9 +7,9 @@ using UnityEngine.InputSystem;
 
 public class DiceRoller : NetworkBehaviour
 {
-    private const int NumDice = 2;
-    private const float throwForce = 2.5f;
-    private const float rollForce = 5f;
+    private const int DICE_COUNT = 2;
+    private const float THROW_FORCE = 2.5f;
+    private const float ROLL_FORCE = 5f;
 
     private enum RollState
     {
@@ -83,7 +83,7 @@ public class DiceRoller : NetworkBehaviour
         spawnedDice.Clear();
         results.Clear();
 
-        for (int i = 0; i < NumDice; i++)
+        for (int i = 0; i < DICE_COUNT; i++)
         {
             float xPosition = Random.Range(-1f, 1f);
             float yPosition = Random.Range(1.5f, 2.5f);
@@ -100,7 +100,7 @@ public class DiceRoller : NetworkBehaviour
 
             dice.OnSettled += HandleDieSettled;
             spawnedDice.Add(dice);
-            dice.RollDice(throwForce, rollForce, i);
+            dice.RollDice(THROW_FORCE, ROLL_FORCE, i);
 
             yield return null;
         }

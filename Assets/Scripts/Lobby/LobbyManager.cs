@@ -9,8 +9,17 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
 {
-    private const float HeartbeatTimerMax = 15f;
-    private const int RequiredPlayers = 4;
+    public static LobbyManager Instance { get; private set; }
+
+    private const float HEARTBEAT_TIMER_MAX = 15f;
+    private const int REQUIRED_PLAYER_COUNT = 4;
+
+    public const string PLAYER_DATA_KEY_PLAYER_NAME = "PlayerName";
+    public const string PLAYER_DATA_KEY_IS_READY = "IsReady";
+
+    public const string LOBBY_DATA_KEY_MINIMUM_PLAYERS = "MinimumPlayers";
+    public const string LOBBY_DATA_KEY_MINIMUM_POINTS = "MinimumPlayers";
+    public const string LOBBY_DATA_KEY_TURN_DURATION = "TurnDuration";
 
     private ILobbyEvents lobbyEvents;
     private Lobby hostLobby;
@@ -20,6 +29,11 @@ public class LobbyManager : MonoBehaviour
 
     private string playerName;
     private string playerId;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private async void Start()
     {
@@ -72,7 +86,7 @@ public class LobbyManager : MonoBehaviour
         if (heartbeatTimer > 0f)
             return;
 
-        heartbeatTimer = HeartbeatTimerMax;
+        heartbeatTimer = HEARTBEAT_TIMER_MAX;
 
         try
         {
@@ -101,20 +115,26 @@ public class LobbyManager : MonoBehaviour
                 Data = new Dictionary<string, DataObject>
                 {
                     {
-                        "MinimumPlayers",
+                        LOBBY_DATA_KEY_MINIMUM_PLAYERS,
                         new DataObject(
                             DataObject.VisibilityOptions.Member,
-                            RequiredPlayers.ToString()
+                            REQUIRED_PLAYER_COUNT.ToString()
                         )
                     },
-                    { "MinimumPoints", new DataObject(DataObject.VisibilityOptions.Member, "0") },
-                    { "TurnDuration", new DataObject(DataObject.VisibilityOptions.Member, "60") },
+                    {
+                        LOBBY_DATA_KEY_MINIMUM_POINTS,
+                        new DataObject(DataObject.VisibilityOptions.Member, "0")
+                    },
+                    {
+                        LOBBY_DATA_KEY_TURN_DURATION,
+                        new DataObject(DataObject.VisibilityOptions.Member, "60")
+                    },
                 },
             };
 
             hostLobby = joinedLobby = await LobbyService.Instance.CreateLobbyAsync(
                 lobbyName,
-                RequiredPlayers,
+                REQUIRED_PLAYER_COUNT,
                 createLobbyOptions
             );
 
@@ -262,11 +282,11 @@ public class LobbyManager : MonoBehaviour
             Data = new Dictionary<string, PlayerDataObject>
             {
                 {
-                    "PlayerName",
+                    PLAYER_DATA_KEY_PLAYER_NAME,
                     new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName)
                 },
                 {
-                    "IsReady",
+                    PLAYER_DATA_KEY_IS_READY,
                     new PlayerDataObject(
                         PlayerDataObject.VisibilityOptions.Member,
                         false.ToString()
@@ -278,17 +298,17 @@ public class LobbyManager : MonoBehaviour
 
     private async void UpdateLobbyMinimumPoints(string newMinimumPoints)
     {
-        if (IsHost(playerId) == false)
+        if (IsLobbyHost(playerId) == false)
             return;
 
         try
         {
-            UpdateLobbyOptions updateLobbyPointRequirementOptions = new()
+            UpdateLobbyOptions updateLobbyMinimumPointsOptions = new()
             {
                 Data = new Dictionary<string, DataObject>
                 {
                     {
-                        "MinimumPoints",
+                        LOBBY_DATA_KEY_MINIMUM_POINTS,
                         new DataObject(DataObject.VisibilityOptions.Member, newMinimumPoints)
                     },
                 },
@@ -296,18 +316,18 @@ public class LobbyManager : MonoBehaviour
 
             hostLobby = await LobbyService.Instance.UpdateLobbyAsync(
                 hostLobby.Id,
-                updateLobbyPointRequirementOptions
+                updateLobbyMinimumPointsOptions
             );
         }
         catch (LobbyServiceException e)
         {
-            Debug.LogError($"Failed to update point requirement: {e.Message}");
+            Debug.LogError($"Failed to update minimum points: {e.Message}");
         }
     }
 
     private async void UpdateLobbyTurnDuration(string newTurnDuration)
     {
-        if (IsHost(playerId) == false)
+        if (IsLobbyHost(playerId) == false)
             return;
 
         try
@@ -317,7 +337,7 @@ public class LobbyManager : MonoBehaviour
                 Data = new Dictionary<string, DataObject>
                 {
                     {
-                        "TurnDuration",
+                        LOBBY_DATA_KEY_TURN_DURATION,
                         new DataObject(DataObject.VisibilityOptions.Member, newTurnDuration)
                     },
                 },
@@ -346,7 +366,7 @@ public class LobbyManager : MonoBehaviour
                 Data = new Dictionary<string, PlayerDataObject>
                 {
                     {
-                        "PlayerName",
+                        PLAYER_DATA_KEY_PLAYER_NAME,
                         new PlayerDataObject(
                             PlayerDataObject.VisibilityOptions.Member,
                             newPlayerName
@@ -379,7 +399,7 @@ public class LobbyManager : MonoBehaviour
                 Data = new Dictionary<string, PlayerDataObject>
                 {
                     {
-                        "IsReady",
+                        PLAYER_DATA_KEY_IS_READY,
                         new PlayerDataObject(
                             PlayerDataObject.VisibilityOptions.Member,
                             isReady.ToString()
@@ -421,7 +441,7 @@ public class LobbyManager : MonoBehaviour
 
     private async void KickPlayer(string kickedPlayerId)
     {
-        if (IsHost(playerId) == false || IsLobbyMember(kickedPlayerId) == false)
+        if (IsLobbyHost(playerId) == false || IsLobbyMember(kickedPlayerId) == false)
             return;
 
         try
@@ -436,7 +456,11 @@ public class LobbyManager : MonoBehaviour
 
     private async void UpdateLobbyHost(string newHostId)
     {
-        if (IsHost(playerId) == false || IsLobbyMember(newHostId) == false || playerId == newHostId)
+        if (
+            IsLobbyHost(playerId) == false
+            || IsLobbyMember(newHostId) == false
+            || playerId == newHostId
+        )
             return;
 
         try
@@ -458,7 +482,7 @@ public class LobbyManager : MonoBehaviour
 
     private async void DeleteLobby()
     {
-        if (IsHost(playerId) == false)
+        if (IsLobbyHost(playerId) == false)
             return;
 
         try
@@ -476,7 +500,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    private bool IsHost(string playerId)
+    private bool IsLobbyHost(string playerId)
     {
         if (hostLobby == null)
             return false;
