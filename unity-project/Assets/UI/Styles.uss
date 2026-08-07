@@ -1,0 +1,98 @@
+:root {
+    --beige: rgb(255, 252, 233);
+    --jade: rgb(5, 94, 85);
+    --gold: rgb(186, 172, 56);
+}
+
+.menu-button {
+    background-color: var(--jade);
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    font-size: 42px;
+    -unity-font-style: bold;
+    color: var(--beige);
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    text-shadow: 2px 2px 4px rgb(0, 0, 0);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-left-color: rgb(190, 188, 87);
+    border-right-color: rgb(190, 188, 87);
+    border-top-color: rgb(190, 188, 87);
+    border-bottom-color: rgb(190, 188, 87);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    width: 400px;
+}
+
+.menu-button:hover {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    font-size: 42px;
+    -unity-font-style: bold;
+    color: var(--beige);
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    text-shadow: 4px 4px 8px rgb(0, 0, 0);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-left-color: rgb(190, 188, 87);
+    border-right-color: rgb(190, 188, 87);
+    border-top-color: rgb(190, 188, 87);
+    border-bottom-color: rgb(190, 188, 87);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    width: 400px;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    background-color: rgb(3, 79, 72);
+}
+
+#unity-text-input {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-left-color: rgb(207, 203, 181);
+    border-right-color: rgb(207, 203, 181);
+    border-top-color: rgb(207, 203, 181);
+    border-bottom-color: rgb(207, 203, 181);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    background-color: var(--beige);
+    -unity-font-style: bold;
+    font-size: 42px;
+}
+
+.unity-text-field__label {
+    color: var(--beige);
+    font-size: 36px;
+    -unity-font-style: bold;
+}
+
+.beige-text {
+    color: var(--beige);
+    text-shadow: 6px 6px 8px rgb(0, 0, 0);
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    font-size: 36px;
+}

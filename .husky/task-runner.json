@@ -5,20 +5,20 @@
       "name": "csharpier-format",
       "command": "dotnet",
       "args": ["csharpier", "format", "${staged}"],
-      "include": ["**/*.cs"]
+      "include": ["unity-project/**/*.cs"]
     },
     {
       "name": "dotnet-lint",
       "command": "dotnet",
       "args": [
         "format",
-        "HK-Mahjong.slnx",
+        "unity-project/HK-Mahjong.slnx",
         "analyzers",
         "--verify-no-changes",
         "--verbosity",
         "normal"
       ],
-      "include": ["**/*.cs"]
+      "include": ["unity-project/**/*.cs"]
     }
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "name": "mahjong-discord-activity",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:react": "pnpm --filter react-app dev",
+    "tunnel": "cloudflared tunnel --url http://localhost:5173",
+    "start": "concurrently \"pnpm dev:react\" \"pnpm tunnel\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
