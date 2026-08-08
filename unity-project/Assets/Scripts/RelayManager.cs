@@ -31,7 +31,7 @@ public class RelayManager : MonoBehaviour
             allocation.AllocationId
         );
 
-        RelayServerData relayServerData = AllocationUtils.ToRelayServerData(allocation, "dtls");
+        RelayServerData relayServerData = AllocationUtils.ToRelayServerData(allocation, "wss");
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
         NetworkManager.Singleton.StartHost();
 
@@ -48,7 +48,7 @@ public class RelayManager : MonoBehaviour
 
             RelayServerData relayServerData = AllocationUtils.ToRelayServerData(
                 joinAllocation,
-                "dtls"
+                "wss"
             );
             NetworkManager
                 .Singleton.GetComponent<UnityTransport>()

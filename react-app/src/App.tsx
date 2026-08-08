@@ -1,12 +1,12 @@
 import { Unity, useUnityContext } from "react-unity-webgl";
 
 export default function App() {
-  // Configured to point directly at your unhashed Unity build outputs
   const { unityProvider, isLoaded, loadingProgression } = useUnityContext({
-    loaderUrl: "unity-build/Build/unity-build.loader.js",
-    dataUrl: "unity-build/Build/unity-build.data",
-    frameworkUrl: "unity-build/Build/unity-build.framework.js",
-    codeUrl: "unity-build/Build/unity-build.wasm",
+    loaderUrl: "/build-files/Build/mahjong.loader.js",
+    dataUrl: "/build-files/Build/mahjong.data",
+    frameworkUrl: "/build-files/Build/mahjong.framework.js",
+    codeUrl: "/build-files/Build/mahjong.wasm",
+    streamingAssetsUrl: "/build-files/StreamingAssets",
   });
 
   return (
@@ -17,7 +17,7 @@ export default function App() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#1e1f22", // Matches Discord's dark theme background
+        backgroundColor: "#1e1f22",
         overflow: "hidden",
         position: "relative",
       }}
@@ -55,7 +55,7 @@ export default function App() {
               style={{
                 width: `${Math.round(loadingProgression * 100)}%`,
                 height: "100%",
-                backgroundColor: "#5865f2", // Discord Blurple color
+                backgroundColor: "#5865f2",
                 transition: "width 0.1s ease-out",
               }}
             />
